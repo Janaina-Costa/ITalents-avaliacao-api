@@ -1,24 +1,29 @@
 const tutorService = require('../service/tutor.service')
 
 const findAllTutors = async (req, res)=>{
-    const pet = await tutorService.findAll()
-    return res.status(200).send(pet)
+    try{
+        const tutor = await tutorService.findAll()
+    return res.status(200).send(tutor)
+    }catch(err){
+        console.log(`Erro: ${err}`)
+        return res.status(500).send('Internal server error')
+    }
 }
 
 const findTutorById = async (req, res)=>{
     try{
         const {id} = req.params
         let found
-        const pet = await tutorService.findById(id)
+        const tutor = await tutorService.findById(id)
         
-        if(pet !== null){
+        if(tutor !== null){
             found = true
         }
 
         if(!found){
             res.status(404).send({message:'Not found'})
         }
-        return res.status(200).send(pet)
+        return res.status(200).send(tutor)
     }catch(err){
         console.log(`Erro: ${err}`)
         return res.status(500).send('Internal server error')
@@ -28,7 +33,7 @@ const findTutorById = async (req, res)=>{
 const createTutor = async (req, res)=>{
     try{
         const {name, cpf, email, phone, socialmedia, address} = req.body
-
+        
         if(!name||!cpf||!email||!phone){
             return res.status(400).send({message:'Empty data is required' })
         }
@@ -45,16 +50,58 @@ const createTutor = async (req, res)=>{
 
     }catch(err){
         console.log(`Erro:${err}`)
-        return res.status(500).send({message: 'Tutor has already been registered'})
+        return res.status(500).send({message: 'Tutor has already been registered'})  
     }
 }
 
 const updateTutor = async (req, res)=>{
+   try{
+    const {id} = req.params
+    const {name, cpf, email, phone, socialmedia, address} = req.body
+    let found
+        const tutor = await tutorService.findById(id)
+        
+        if(tutor !== null){
+            found = true
+        }
+
+        if(!found){
+            res.status(404).send({message:'Not found'})
+        }
+
+        await tutorService.update(id,{name, cpf, email, phone, socialmedia, address})
+        
+        res.status(200).send({message:'Updated successfully'})
+
+   }catch(err){
+    console.log(`Erro:${err}`)
+    return res.status(500).send({message: 'Internal server error'})
+   }
 
 }
 
 const deleteTutor = async (req, res)=>{
+    try{
+        const {id} = req.params
+       
+        let found
+            const tutor = await tutorService.findById(id)            
+            if(tutor !== null){
+                found = true
+            }
 
+            if(!found){
+                res.status(404).send({message:'Not found'})
+            }
+    
+            await tutorService.remove(id)
+            
+            res.status(200).send({message:'Deleted successfully'})
+    
+       }catch(err){
+        console.log(`Erro:${err}`)
+        return res.status(500).send({message: 'Internal server error'})
+       }
 }
 
 module.exports = {findAllTutors, findTutorById, createTutor, updateTutor, deleteTutor}

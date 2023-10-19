@@ -1,4 +1,4 @@
-const {Pet} = require('../../model/pet')
+const Pet = require('../../model/pet')
 
 const findAll = () => {
     return Pet.find()

@@ -6,7 +6,6 @@ const tutorSchema = new Schema({
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true },
     socialmedia: { type: String },
-
     address: {
         cep: { type: String },
         street: { type: String },
