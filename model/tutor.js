@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const {randomUUID} = require('crypto')
 
 const tutorSchema = new Schema({
     name: { type: String, required: true },
@@ -13,8 +14,22 @@ const tutorSchema = new Schema({
         complement: { type: String },
         neighborhood: { type: String },
         city: { type: String },
-    }
-})
+    },
+    pet:[
+        {   
+            name: { type: String, required:true },
+            age: { type: Number, required:true, min:0, max:30 },
+            weight: { type: Number, required:true },
+            height: { type: Number, required:true },
+            size:{
+                type:String, 
+                enum:['pequeno', 'medio', 'grande']
+            },
+                
+            breed: { type: String },
+        }
+    ]
+}, {timestamps:true})
 
 const Tutor = model('Tutor', tutorSchema)
 

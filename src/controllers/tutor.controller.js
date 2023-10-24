@@ -21,7 +21,7 @@ const findTutorById = async (req, res)=>{
         }
 
         if(!found){
-            res.status(404).send({message:'Not found'})
+           return res.status(404).send({message:'Not found'})
         }
         return res.status(200).send(tutor)
     }catch(err){
@@ -32,11 +32,12 @@ const findTutorById = async (req, res)=>{
 
 const createTutor = async (req, res)=>{
     try{
-        const {name, cpf, email, phone, socialmedia, address} = req.body
+        const {name, cpf, email, phone, socialmedia, address, pet} = req.body
         
         if(!name||!cpf||!email||!phone){
             return res.status(400).send({message:'Empty data is required' })
-        }
+        }   
+
 
         const newTutor = await tutorService.create({
             name,
@@ -44,13 +45,14 @@ const createTutor = async (req, res)=>{
             email,
             phone,
             socialmedia,
-            address
+            address,
+            pet
         })
         return res.status(201).send(newTutor)
 
     }catch(err){
-        console.log(`Erro:${err}`)
-        return res.status(500).send({message: 'Tutor has already been registered'})  
+        console.log(`Erro:${err.message}`)
+        return res.status(500).send({message: 'Erro interno do servidor'})  
     }
 }
 
@@ -66,7 +68,7 @@ const updateTutor = async (req, res)=>{
         }
 
         if(!found){
-            res.status(404).send({message:'Not found'})
+          return  res.status(404).send({message:'Not found'})
         }
 
         await tutorService.update(id,{name, cpf, email, phone, socialmedia, address})
