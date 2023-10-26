@@ -1,6 +1,7 @@
 const express = require('express')
-const runDataBase = require('../db')
+
 const routes = require('./router/router')
+const runDataBase = require('./db')
 
 
 

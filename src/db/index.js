@@ -1,7 +1,7 @@
 //const {MongoClient, ServerApiVersion} = require('mongodb');
 
 const client = require("./client")
-const URL_DB_CLIENT = require('../src/settings')
+const URL_DB_CLIENT = require('../settings')
 
 const uri = URL_DB_CLIENT
 

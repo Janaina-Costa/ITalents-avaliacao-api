@@ -32,9 +32,9 @@ const findTutorById = async (req, res)=>{
 
 const createTutor = async (req, res)=>{
     try{
-        const {name, cpf, email, phone, socialmedia, address, pet} = req.body
+        const {name, cpf, email, password, phone, socialmedia, address, pet} = req.body
         
-        if(!name||!cpf||!email||!phone){
+        if(!name||!cpf||!email||!phone||!password){
             return res.status(400).send({message:'Empty data is required' })
         }   
 
@@ -43,6 +43,7 @@ const createTutor = async (req, res)=>{
             name,
             cpf,
             email,
+            password,
             phone,
             socialmedia,
             address,
@@ -52,14 +53,14 @@ const createTutor = async (req, res)=>{
 
     }catch(err){
         console.log(`Erro:${err.message}`)
-        return res.status(500).send({message: 'Erro interno do servidor'})  
+        return res.status(500).send({message: 'Internal server error'})  
     }
 }
 
 const updateTutor = async (req, res)=>{
    try{
     const {id} = req.params
-    const {name, cpf, email, phone, socialmedia, address} = req.body
+    const {name, cpf, email, password, phone, socialmedia, address} = req.body
     let found
         const tutor = await tutorService.findById(id)
         
@@ -71,7 +72,7 @@ const updateTutor = async (req, res)=>{
           return  res.status(404).send({message:'Not found'})
         }
 
-        await tutorService.update(id,{name, cpf, email, phone, socialmedia, address})
+        await tutorService.update(id,{name, cpf, email, password, phone, socialmedia, address})
         
         res.status(200).send({message:'Updated successfully'})
 

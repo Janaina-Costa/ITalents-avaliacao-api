@@ -1,4 +1,4 @@
-const {Tutor} = require('../../model/tutor')
+const {Tutor} = require('../model/tutor')
 
 const findAll = () => {
     return Tutor.find()

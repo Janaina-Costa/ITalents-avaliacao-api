@@ -8,4 +8,5 @@ router.post('/tutor/create', createTutor)
 router.put('/tutor/update/:id', updateTutor)
 router.delete('/tutor/delete/:id', deleteTutor)
 
+
 module.exports = router
